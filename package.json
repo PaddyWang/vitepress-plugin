@@ -1,0 +1,40 @@
+{
+  "private": true,
+  "name": "vitepress-plugin",
+  "version": "1.0.0",
+  "description": "vitepress-plugin",
+  "scripts": {
+    "docs:dev": "pnpm --filter=docs docs:dev",
+    "docs:build": "pnpm --filter=docs docs:build",
+    "build": "pnpm --filter=!docs -r build",
+    "clean": "pnpm --filter=!docs -r clean",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish"
+  },
+  "keywords": [
+    "plugin",
+    "vitepress-plugin",
+    "@vitepress-plugin/markmap",
+    "markmap"
+  ],
+  "author": {
+    "name": "PaddyWang",
+    "email": "1303841222@qq.com",
+    "url": "https://github.com/PaddyWang"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaddyWang/vitepress-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/PaddyWang/vitepress-plugin/issues",
+    "email": "1303841222@qq.com"
+  },
+  "homepage": "http://paddywang.github.io/vitepress-plugin",
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "@changesets/cli": "^2.29.8"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    /* 语言和环境配置 */
+    "target": "ES2020",                              /* 编译目标：支持 ES2020 特性 */
+    "lib": ["ES2020", "DOM"],                        /* 包含 DOM 类型定义 */
+    "module": "ESNext",                              /* 模块格式：使用 ESNext（由 Vite 自动处理） */
+    "jsx": "preserve",                               /* JSX 处理：preserve 保留 JSX（交给 Vue 插件处理） */
+
+    /* 类型检查 */
+    "strict": true,                                  /* 启用所有严格类型检查 */
+    "skipLibCheck": true,                            /* 跳过库的类型检查，加快编译速度 */
+    "forceConsistentCasingInFileNames": true,        /* 强制文件名大小写一致性 */
+
+    /* 模块解析 */
+    "moduleResolution": "node",                      /* 使用 Node.js 的模块解析策略 */
+    "resolveJsonModule": true,                       /* 允许导入 JSON 文件 */
+    "allowSyntheticDefaultImports": true,            /* 允许从没有默认导出的模块导入 */
+    "esModuleInterop": true,                         /* 与 CommonJS 模块更好的兼容性 */
+
+    /* 输出 */
+    "declaration": true,                             /* 生成 .d.ts 类型定义文件 */
+    "declarationMap": false,                         /* 不生成 .d.ts.map 文件 */
+    "outDir": "./dist",                              /* 输出目录 */
+    "rootDir": "./src",                              /* 源代码根目录 */
+    "removeComments": true,                          /* 移除注释（在最终构建时） */
+    "sourceMap": false,                              /* 不生成 source map */
+
+    /* 其他 */
+    "experimentalDecorators": true,                  /* 启用实验性的装饰器语法 */
+    "useDefineForClassFields": true,                 /* 为类字段使用 Object.defineProperty */
+    "baseUrl": "./",                                 /* 基础 URL 用于模块解析 */
+    "paths": {
+      "@/*": ["src/*"]                               /* 路径别名 */
+    }
+  },
+
+  "include": [
+    "src/**/*",
+    "src/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+
+  /* Vite 相关的编译器选项 */
+  "vueCompilerOptions": {
+    "isTS": true
+  }
+}

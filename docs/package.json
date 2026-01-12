@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "示例 & 文档",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build"
+  },
+  "keywords": [],
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "vitepress": "2.0.0-alpha.15",
+    "@vitepress-plugin/markmap": "workspace:*"
+  }
+}
