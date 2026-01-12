@@ -1,6 +1,6 @@
 {
   "name": "@vitepress-plugin/markmap",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "VitePress 插件 用 Markdown 绘制交互式脑图",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -53,9 +53,8 @@
   "homepage": "http://paddywang.github.io/vitepress-plugin/markmap",
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
-    "markmap-common": "^0.14.2",
-    "markmap-lib": "^0.14.4",
-    "markmap-view": "^0.14.3"
+    "markmap-lib": "^0.18.12",
+    "markmap-view": "^0.18.12"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",

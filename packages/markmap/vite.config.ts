@@ -36,7 +36,6 @@ export default defineConfig({
     // Rollup 选项 - 配置依赖的外部化和输出格式
     rollupOptions: {
       // 指定哪些包应该被外部化处理，不被打包进库中
-      // 注：markmap-lib 和 markmap-view 保持外部化，避免依赖版本冲突
       external: ['vue', 'vite', 'vitepress'],
 
       // 为外部依赖提供全局变量名称（用于 UMD 格式）
