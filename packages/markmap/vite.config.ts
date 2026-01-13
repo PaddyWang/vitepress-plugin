@@ -34,15 +34,9 @@ export default defineConfig({
     // Rollup 选项 - 配置依赖的外部化和输出格式
     rollupOptions: {
       // 指定哪些包应该被外部化处理，不被打包进库中
-      external: ['vue', 'vite', 'vitepress'],
+      external: ['vue', 'vitepress'],
 
-      // 为外部依赖提供全局变量名称（用于 UMD 格式）
       output: {
-        globals: {
-          vue: 'Vue',
-          vite: 'Vite',
-          vitepress: 'VitePress',
-        },
         // 确保CSS包含在bundle中
         assetFileNames: (chunkInfo) => {
           if (chunkInfo.names[0]?.endsWith('.css')) return 'style.css'

@@ -19,8 +19,6 @@ export default defineConfig({
     plugins: [
       markmapPlugin({
         name: 'markmap',
-        width: '100%',
-        height: '400px',
       }),
     ],
   },

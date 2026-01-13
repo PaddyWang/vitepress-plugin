@@ -1,5 +1,11 @@
 # @vitepress-plugin/markmap
 
+## 1.1.3
+
+### Patch Changes
+
+- 处理依赖问题
+
 ## 1.1.2
 
 ### Patch Changes

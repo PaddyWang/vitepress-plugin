@@ -32,9 +32,6 @@ importers:
       markmap-view:
         specifier: ^0.18.12
         version: 0.18.12(markmap-common@0.18.9)
-      vitepress:
-        specifier: 2.0.0-alpha.15
-        version: 2.0.0-alpha.15(@algolia/client-search@5.46.2)(@types/node@25.0.6)(postcss@8.5.6)(react@19.2.3)(search-insights@2.17.3)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.2)
       vue:
         specifier: ^3.4.0
         version: 3.5.26(typescript@5.9.3)
@@ -60,6 +57,9 @@ importers:
       vite:
         specifier: ^7.3.1
         version: 7.3.1(@types/node@25.0.6)(terser@5.44.1)(yaml@2.8.2)
+      vitepress:
+        specifier: 2.0.0-alpha.15
+        version: 2.0.0-alpha.15(@algolia/client-search@5.46.2)(@types/node@25.0.6)(postcss@8.5.6)(react@19.2.3)(search-insights@2.17.3)(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.2)
       vitest:
         specifier: ^4.0.16
         version: 4.0.16(@opentelemetry/api@1.9.0)(@types/node@25.0.6)(terser@5.44.1)(yaml@2.8.2)
