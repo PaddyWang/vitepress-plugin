@@ -34,7 +34,7 @@ export default defineConfig({
     // Rollup 选项 - 配置依赖的外部化和输出格式
     rollupOptions: {
       // 指定哪些包应该被外部化处理，不被打包进库中
-      external: ['vue', 'vitepress'],
+      external: ['vue'],
 
       output: {
         // 确保CSS包含在bundle中

@@ -8,13 +8,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watchEffect, reactive } from 'vue'
-import { useData } from 'vitepress'
+import { onMounted, ref, reactive, onUnmounted } from 'vue'
 import { Transformer, ITransformResult } from 'markmap-lib'
 import { Markmap, IMarkmapOptions } from 'markmap-view'
 import { Toolbar } from 'markmap-toolbar'
 
-const { isDark } = useData()
 
 const containerRef = ref<HTMLDivElement>()
 const svgRef = ref(null)
@@ -29,11 +27,38 @@ const state = reactive<State>({
   containerHeight: 300
 })
 
-watchEffect(() => {
-  if (isDark.value) {
-    document.documentElement.classList.add('markmap-dark')
-  } else {
-    document.documentElement.classList.remove('markmap-dark')
+
+const observerRef = ref()
+const flagId = 'markmap-dark-observer'
+onMounted(() => {
+  // 增加标记 防止注入多个监听
+  if (!document.querySelector(`#${flagId}`)) {
+    const flagEl = document.createElement('span')
+    flagEl.style.display = 'none'
+    flagEl.id = flagId
+    document.body.appendChild(flagEl)
+    // 监听vitepress主题变化
+    observerRef.value = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains('dark')
+      const isMmDark = document.documentElement.classList.contains('markmap-dark')
+      if (isDark && !isMmDark) {
+        document.documentElement.classList.add('markmap-dark')
+      } else if (!isDark && isMmDark) {
+        document.documentElement.classList.remove('markmap-dark')
+      }
+    })
+
+    observerRef.value.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    })
+  }
+})
+onUnmounted(() => {
+  const flagEl = document.querySelector(`#${flagId}`)
+  if (flagEl) {
+    observerRef.value?.disconnect()
+    document.removeChild(flagEl)
   }
 })
 
