@@ -14,11 +14,6 @@ import { Transformer, ITransformResult } from 'markmap-lib'
 import { Markmap, IMarkmapOptions } from 'markmap-view'
 import { Toolbar } from 'markmap-toolbar'
 
-interface Props {
-  matter?: string
-}
-const { matter } = defineProps<Props>()
-
 const { isDark } = useData()
 
 const containerRef = ref<HTMLDivElement>()

@@ -57,15 +57,15 @@ export function transformMarkmapContainers(markdown: string, options: MarkmapPlu
                           // 转移掉标签符号
                           .replace(/</g, '&lt;').replace(/>/g, '&gt;').trim()
 
-    console.log('>>content', content.replace(/</g, '&lt;').replace(/>/g, '&gt;').trim())
-
     // 生成组件源码 <markmap><pre>content</pre></markmap>
     return `
+<ClientOnly>
 <${name} ${propsArray.join(' ')}>
 <pre>
 ${contentAfter}
 </pre>
 </${name}>
+</ClientOnly>
     `
   })
 }

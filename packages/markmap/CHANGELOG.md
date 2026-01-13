@@ -1,10 +1,16 @@
 # @vitepress-plugin/markmap
 
+## 1.1.2
+
+### Patch Changes
+
+- 只支持客户端渲染
+
 ## 1.1.1
 
 ### Patch Changes
 
-- 修复组件插入顶部导致页面无法解析frontmatter问题
+- 修复组件插入顶部导致页面无法解析 frontmatter 问题
 - 处理空行导致渲染脑图缺失问题
 
 ## 1.1.0
