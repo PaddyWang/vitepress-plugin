@@ -1,5 +1,11 @@
 # @vitepress-plugin/markmap
 
+## 1.1.4
+
+### Patch Changes
+
+- 处理默认暗色主题问题
+
 ## 1.1.3
 
 ### Patch Changes

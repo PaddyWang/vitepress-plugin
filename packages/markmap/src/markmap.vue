@@ -37,8 +37,8 @@ onMounted(() => {
     flagEl.style.display = 'none'
     flagEl.id = flagId
     document.body.appendChild(flagEl)
-    // 监听vitepress主题变化
-    observerRef.value = new MutationObserver(() => {
+
+    const _handleDark = () => {
       const isDark = document.documentElement.classList.contains('dark')
       const isMmDark = document.documentElement.classList.contains('markmap-dark')
       if (isDark && !isMmDark) {
@@ -46,7 +46,12 @@ onMounted(() => {
       } else if (!isDark && isMmDark) {
         document.documentElement.classList.remove('markmap-dark')
       }
-    })
+    }
+
+    _handleDark()
+
+    // 监听vitepress主题变化
+    observerRef.value = new MutationObserver(_handleDark)
 
     observerRef.value.observe(document.documentElement, {
       attributes: true,
