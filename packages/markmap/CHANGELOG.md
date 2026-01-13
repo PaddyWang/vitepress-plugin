@@ -1,5 +1,11 @@
 # @vitepress-plugin/markmap
 
+## 1.1.0
+
+### Minor Changes
+
+- 增加缩放 & 自定义配置
+
 ## 1.0.1
 
 ### Patch Changes

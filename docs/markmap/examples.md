@@ -49,9 +49,51 @@
     + `console.log('123')`
 :::
 
+## 示例 2：自定义配置
+
+展示容器自定义配置
+
+```md
+:::markmap
+---
+containerHeight: 500
+markmap:
+  color: red
+  maxInitialScale: 2
+  spacingVertical: 16
+  spacingHorizontal: 50
+  zoom: false
+  pan: false
+  toggleRecursively: true
+---
+
+# 前端开发
+## HTML
+## CSS
+## JavaScript
+:::
+```
+
+:::markmap
+---
+containerHeight: 500
+markmap:
+  color: red
+  maxInitialScale: 2
+  spacingVertical: 16
+  spacingHorizontal: 50
+  zoom: false
+  pan: false
+  toggleRecursively: true
+---
+# 前端开发
+## HTML
+## CSS
+## JavaScript
+:::
 
 ---
 
 **提示**：所有脑图都支持实时交互：
-- 🔍 **缩放**：暂时不支持
+- 🔍 **缩放**：支持缩放
 - ⚡ **响应式**：自动适应容器宽度

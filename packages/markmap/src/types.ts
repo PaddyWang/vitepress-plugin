@@ -11,14 +11,6 @@ import { Plugin } from 'vite'
 export interface MarkmapPluginConfig {
   /** 自定义容器的名称（在 markdown 中使用） */
   name?: string
-  /** 默认的脑图宽度 */
-  width?: string | number
-  /** 默认的脑图高度 */
-  height?: string | number
-  /** 是否启用缩放功能 */
-  zoom?: boolean
-  /** 是否启用拖拽功能 */
-  pan?: boolean
 }
 
 /**

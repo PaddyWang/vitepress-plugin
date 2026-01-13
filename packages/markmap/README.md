@@ -1,7 +1,7 @@
 # @vitepress-plugin/markmap
 
 [![npm version](https://img.shields.io/npm/v/@vitepress-plugin/markmap)](https://www.npmjs.com/package/@vitepress-plugin/markmap)
-[![license](https://img.shields.io/npm/l/@vitepress-plugin/markmap)](LICENSE)
+[![license](https://img.shields.io/npm/l/%40vitepress-plugin%2Fmarkmap)](LICENSE)
 [![downloads](https://img.shields.io/npm/dw/@vitepress-plugin/markmap)](https://www.npmjs.com/package/@vitepress-plugin/markmap)
 
 一个强大的 VitePress 插件，用于在 Markdown 中优雅地渲染交互式脑图。基于 [markmap-lib](https://markmap.js.org/) 和 [markmap-view](https://markmap.js.org/) 构建。
@@ -33,17 +33,14 @@ yarn add @vitepress-plugin/markmap
 
 在 `.vitepress/config.mts` 中：
 
-```typescript{2,7-10}
+```typescript{2,7}
 import { defineConfig } from 'vitepress'
 import markmapPlugin from '@vitepress-plugin/markmap'
 
 export default defineConfig({
   vite: {
     plugins: [
-      markmapPlugin({
-        width: '100%',
-        height: '500px',
-      }),
+      markmapPlugin(),
     ],
   },
 })
@@ -54,8 +51,12 @@ export default defineConfig({
 ```markdown
 :::markmap
 ---
-width: 100%
-height: 500
+containerHeight: 500
+markmap:
+  color: red
+  maxInitialScale: 2
+  spacingVertical: 16
+  spacingHorizontal: 50
 ---
 # Root Node
 * Branch 1
@@ -74,25 +75,43 @@ height: 500
 | 选项 | 类型 | 默认值 | 说明 |
 |-----|------|--------|------|
 | `name` | string | `'markmap'` | 自定义容器名称 |
-| `width` | string \| number | `'100%'` | 默认脑图宽度 |
-| `height` | string \| number | `300px` | 默认脑图高度 |
 
 ### 容器级属性
 
 在单个容器中可以覆盖全局配置：  
 支持使用 YAML frontmatter，并使用 [gray-matter](https://github.com/jonschlinkert/gray-matter) 解析。frontmatter 必须位于 容器的顶部，并且需要在三条虚线之间采用有效的 YAML 格式。例如：
 
-```md{2-4}
+```md{2-6}
 :::markmap
 ---
-height: 500
+containerHeight: 500
+markmap:
+  color: red
 ---
 
 ...
 :::
 ```
 
-支持的属性：`width`、`height`
+| 选项 | 类型 | 默认值 | 说明 |
+|-----|------|--------|------|
+| `containerHeight` | string \| number | `300` | 自定义容器高度 |
+| `markmap` | object | / | 自定义脑图配置 |
+| `markmap:color` | string | / | 颜色 |
+| `markmap:spacingHorizontal` | number | 24 | 水平方向间隔距离 |
+| `markmap:spacingVertical` | number | 10 | 垂直方向间隔距离 |
+| `markmap:maxInitialScale` | number | 1 | 最大的初始放大倍数 |
+| `markmap:duration` | number | 500 | 展开动画时长(sm) |
+| `markmap:embedGlobalCSS` | boolean | true | 是否嵌入全局CSS |
+| `markmap:autoFit` | boolean | false |  |
+| `markmap:fitRatio` | number | 0.95 | 适合缩放比例 |
+| `markmap:initialExpandLevel` | number | -1 | 初始展开层级(-1： 全部展开) |
+| `markmap:zoom` | boolean | true | 是否可以缩放(false 时不影响toolbar的缩放操作) |
+| `markmap:pan` | boolean | true | 是否可以滚动 |
+| `markmap:scrollForPan` | boolean | Macintosh: true <br/> 其他: false |  |
+| `markmap:toggleRecursively` | boolean | false |  |
+
+
 
 ## 🏗️ 项目架构
 
@@ -166,7 +185,7 @@ A: 检查以下几点：
 
 ### Q: 如何改变默认高度？
 
-A: 在插件配置中设置 `height`，或在容器中指定 `height` 属性
+A: 在在容器中指定 `containerHeight` 属性
 
 ## 🤝 贡献
 

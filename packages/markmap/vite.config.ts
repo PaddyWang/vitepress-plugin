@@ -4,9 +4,7 @@
  *
  * 构建产物：
  * - dist/index.es.js: ES 模块格式
- * - dist/index.umd.js: UMD 通用格式
  * - dist/markmap.es.js: Vue 组件（ES 模块）
- * - dist/markmap.umd.js: Vue 组件（UMD）
  */
 
 import { defineConfig } from 'vite'
@@ -46,9 +44,9 @@ export default defineConfig({
           vitepress: 'VitePress',
         },
         // 确保CSS包含在bundle中
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name.endsWith('.css')) return 'style.css';
-          return assetInfo.name;
+        assetFileNames: (chunkInfo) => {
+          if (chunkInfo.names[0]?.endsWith('.css')) return 'style.css'
+          return chunkInfo.names[0]
         },
       },
     },

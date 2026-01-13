@@ -1,5 +1,3 @@
-import matter from 'gray-matter'
-
 import { MarkmapPluginConfig } from './types'
 
 /**
@@ -30,10 +28,11 @@ export const generateUniqueId = (prefix: string = 'markmap') => `${prefix}-${Dat
  * @returns 转换后的内容
  */
 export function transformMarkmapContainers(markdown: string, options: MarkmapPluginConfig): string {
-  const { name, width, height } = options
-  const MARKMAP_CONTAINER_REGEX = new RegExp(`(?:^|\n)(:::\\s*${name}(?: +(.*?))?\n(---\\s*\n[\\s\\S]*?\n---\n)?([\\s\\S]*?)\n:::)`, 'gm')
+  const { name } = options
+  const MARKMAP_CONTAINER_REGEX = new RegExp(`(?:^|\n)(:::\\s*${name}(?: +(.*?))?\n([\\s\\S]*?)\n:::)`, 'gm')
+
   // 使用专门的函数来替换，保留原有的内容结构
-  return markdown.replace(MARKMAP_CONTAINER_REGEX, (match: string, fullMatch: string, _title: string, config: string, content: string) => {
+  return markdown.replace(MARKMAP_CONTAINER_REGEX, (match: string, fullMatch: string, _title: string, content: string) => {
     // 检查前面的字符，确保不在代码块中
     const matchIndex = match.indexOf(fullMatch)
     const position = markdown.indexOf(match) + matchIndex
@@ -48,40 +47,23 @@ export function transformMarkmapContainers(markdown: string, options: MarkmapPlu
       return match
     }
 
-    const props = config ? matter(config).data : {}
-
-    if (width && !props.width) {
-      props.width = width
-    }
-    if (height && !props.height) {
-      props.height = height
-    }
-
     // 生成组件属性字符串
     const componentId = generateUniqueId(name)
     const propsArray: string[] = [`id="${componentId}"`]
 
-    // 添加自定义属性
-    for (const [key, value] of Object.entries(props)) {
-      switch (typeof value) {
-        case 'string':
-          propsArray.push(`${key}="${value}"`)
-          break
-        case 'boolean':
-        case 'number':
-          propsArray.push(`:${key}="${value}"`)
-          break
-        case 'object':
-          propsArray.push(value ? `${key}="${JSON.stringify(value).replace(/"/mg, '\'')}"` : `:${key}="${value}"`)
-          break
-      }
-    }
+    const contentAfter = content
+                          // 去掉---下面的空行 为了避免markdown语法转换
+                          .replace(/---\s*\n([\s\n])+/g, (match) => match.split('\n').filter(line => line.trim() !== '').join('') + '\n')
+                          // 转移掉标签符号
+                          .replace(/</g, '&lt;').replace(/>/g, '&gt;').trim()
 
-    // 生成组件源码 <markmap width="" height="" ....><pre>content</pre></markmap>
+    console.log('>>content', content.replace(/</g, '&lt;').replace(/>/g, '&gt;').trim())
+
+    // 生成组件源码 <markmap><pre>content</pre></markmap>
     return `
 <${name} ${propsArray.join(' ')}>
 <pre>
-${content.replace(/</g, '&lt;').replace(/>/g, '&gt;').trim()}
+${contentAfter}
 </pre>
 </${name}>
     `

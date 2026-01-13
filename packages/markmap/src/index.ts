@@ -44,24 +44,11 @@ function getFileExtension(filepath: string): string {
  *
  * @param options - 插件配置选项
  * @returns Vite 插件对象
- *
- * @example
- * ```ts
- * // markdown 中的使用
- * :::markmap width=100% height=500px
- * Root Node
- *   Child 1
- *     Grandchild 1.1
- *   Child 2
- * :::
- * ```
  */
 export default function markmapPlugin(options: MarkmapPluginConfig = {}): Plugin {
   // 合并默认选项
   const {
     name = 'markmap',
-    width,
-    height,
   } = options
 
   return {
@@ -110,7 +97,7 @@ export default function markmapPlugin(options: MarkmapPluginConfig = {}): Plugin
       let transformed = src
 
       // 第一步：转换脑图容器为组件
-      transformed = transformMarkmapContainers(transformed, { name, width, height })
+      transformed = transformMarkmapContainers(transformed, { name })
 
       // 第二步：如果有脑图容器被转换，注入必要的导入和组件注册
       if (transformed !== src) {
