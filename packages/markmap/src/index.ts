@@ -103,13 +103,11 @@ export default function markmapPlugin(options: MarkmapPluginConfig = {}): Plugin
       if (transformed !== src) {
         // 在文件顶部注入 Markmap 组件导入
         // 这样脑图容器转换后的组件调用才能找到组件定义
-        transformed = `
+        transformed = `${transformed}\n
 <script setup>
 import ${name} from '@vitepress-plugin/markmap/markmap';
 import '@vitepress-plugin/markmap/style.css'
-</script>\n
-
-${transformed}`
+</script>`
       }
 
       // 如果内容被修改，返回新内容和 source map

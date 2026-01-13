@@ -52,8 +52,8 @@ export function transformMarkmapContainers(markdown: string, options: MarkmapPlu
     const propsArray: string[] = [`id="${componentId}"`]
 
     const contentAfter = content
-                          // 去掉---下面的空行 为了避免markdown语法转换
-                          .replace(/---\s*\n([\s\n])+/g, (match) => match.split('\n').filter(line => line.trim() !== '').join('') + '\n')
+                          // 去掉所有的空行 为了避免markdown语法转换
+                          .split('\n').filter(line => line.trim() !== '').join('\n')
                           // 转移掉标签符号
                           .replace(/</g, '&lt;').replace(/>/g, '&gt;').trim()
 

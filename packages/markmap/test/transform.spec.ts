@@ -29,5 +29,5 @@ markmap:
 
 ## JavaScript
   `
-  console.log('>', loadSource.replace(/---\s*\n([\s\n])+/g, (match) => match.split('\n').filter(line => line.trim() !== '').join('') + '\n'))
+  console.log('>', loadSource.split('\n').filter(line => line.trim() !== '').join('\n'))
 })
