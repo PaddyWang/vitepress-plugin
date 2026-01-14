@@ -1,5 +1,12 @@
 # @vitepress-plugin/markmap
 
+## 1.3.0
+
+### Minor Changes
+
+- 重构转换函数
+- 修复上个版本 config 空 name undefined 问题
+
 ## 1.2.0
 
 ### Minor Changes

@@ -21,6 +21,22 @@ import { MarkmapPluginConfig } from './types'
  */
 export const generateUniqueId = (prefix: string = 'markmap') => `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
 
+const handlePropsArr = (props: object) => {
+  const propsArray: string[] = []
+
+  for (const [key, value] of Object.entries(props)) {
+    switch (typeof value) {
+      case 'string':
+        propsArray.push(`${key}="${value}"`)
+        break
+      case 'number':
+      case 'boolean':
+        propsArray.push(`:${key}="${value}"`)
+        break
+    }
+  }
+  return propsArray
+}
 
 /**
  * 转换 Markdown 中的脑图容器为 Vue 组件标签
@@ -29,56 +45,76 @@ export const generateUniqueId = (prefix: string = 'markmap') => `${prefix}-${Dat
  */
 export function transformMarkmapContainers(markdown: string, options: MarkmapPluginConfig): string {
   const { name, ...globalProps } = options
-  const MARKMAP_CONTAINER_REGEX = new RegExp(`(?:^|\n)(:::\\s*${name}(?: +(.*?))?\n([\\s\\S]*?)\n:::)`, 'gm')
 
-  // 使用专门的函数来替换，保留原有的内容结构
-  return markdown.replace(MARKMAP_CONTAINER_REGEX, (match: string, fullMatch: string, _title: string, content: string) => {
-    // 检查前面的字符，确保不在代码块中
-    const matchIndex = match.indexOf(fullMatch)
-    const position = markdown.indexOf(match) + matchIndex
-    const beforeMatch = markdown.slice(0, position)
-    
-    // 检查前面是否有未关闭的代码块
-    const codeBlocks = (beforeMatch.match(/```/g) || []).length
-    const isInCodeBlock = codeBlocks % 2 === 1  // 奇数个 ``` 表示在代码块中
-    
-    if (isInCodeBlock) {
-      // 如果在代码块中，直接返回原匹配内容，不做处理
-      return match
+  const componentId = generateUniqueId(name)
+  const propsArray = handlePropsArr({ ...globalProps, id: componentId })
+
+  const lines = markdown.split('\n')
+  const transformedLines: string[] = []
+  const scriptSetupFlag = `/* script setup ${componentId} */`
+  // 是否在代码块中
+  let isCodeBlock = false
+  // 是否是markmap容器
+  let isMarkmapSpace = false
+  // 是否有markmap容器
+  let hasMarkmapContainer = false
+
+  lines.forEach((line) => {
+    if (!isCodeBlock && line.startsWith('```')) {
+      isCodeBlock = true
+    } else if (isCodeBlock && line.startsWith('```')) {
+      isCodeBlock = false
     }
 
-    // 生成组件属性字符串
-    const componentId = generateUniqueId(name)
-    const propsArray: string[] = [`id="${componentId}"`]
+    if (!isCodeBlock) {
+      if (line.startsWith(`:::${name}`)) {
+        isMarkmapSpace = true
+        hasMarkmapContainer = true
+        const markmapContainerStart = [
+          '<ClientOnly>',
+          `<${name} ${propsArray.join(' ')}>`,
+          '<pre>',
+        ]
+        transformedLines.push(...markmapContainerStart)
+        return
+      }
+      if (isMarkmapSpace && line.startsWith(':::')) {
+        isMarkmapSpace = false
+        const markmapContainerEnd = [
+          '</pre>',
+          `</${name}>`,
+          '</ClientOnly>',
+        ]
+        transformedLines.push(...markmapContainerEnd)
+        return
+      }
+      if (isMarkmapSpace) {
+        if (line.trim() === '') return // 跳过空行
+        // 转义标签符号
+        line = line.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      }
 
-    // 添加全局属性
-    for (const [key, value] of Object.entries(globalProps)) {
-      switch (typeof value) {
-        case 'string':
-          propsArray.push(`${key}="${value}"`)
-          break
-        case 'number':
-        case 'boolean':
-          propsArray.push(`:${key}="${value}"`)
-          break
+      // 是否有 script setup 标签
+      if (line.trim().startsWith('<script') && line.includes('setup')) {
+        transformedLines.push(line, scriptSetupFlag)
+        return
       }
     }
 
-    const contentAfter = content
-                          // 去掉所有的空行 为了避免markdown语法转换
-                          .split('\n').filter(line => line.trim() !== '').join('\n')
-                          // 转移掉标签符号
-                          .replace(/</g, '&lt;').replace(/>/g, '&gt;').trim()
-
-    // 生成组件源码 <markmap><pre>content</pre></markmap>
-    return `
-<ClientOnly>
-<${name} ${propsArray.join(' ')}>
-<pre>
-${contentAfter}
-</pre>
-</${name}>
-</ClientOnly>
-    `
+    transformedLines.push(line)
   })
+
+  const scriptSetupFlagIndex = transformedLines.indexOf(scriptSetupFlag)
+  const importStatement = `
+    import ${name} from '@vitepress-plugin/markmap/markmap';
+    import '@vitepress-plugin/markmap/style.css';
+    `
+  if (scriptSetupFlagIndex !== -1 && hasMarkmapContainer) {
+    transformedLines.splice(scriptSetupFlagIndex, 1, importStatement)
+  } else if (hasMarkmapContainer) {
+    // 在文件底部注入 Markmap 组件导入 顶部会影响 frontmatter 解析
+    transformedLines.push('<script setup>', importStatement, '</script>')
+  }
+
+  return transformedLines.join('\n')
 }
