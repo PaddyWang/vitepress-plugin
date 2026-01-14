@@ -75,6 +75,8 @@ markmap:
 | 选项 | 类型 | 默认值 | 说明 |
 |-----|------|--------|------|
 | `name` | string | `'markmap'` | 自定义容器名称 |
+| `containerHeight` | string \| number | `300` | 全局自定义容器高度 |
+| `theme` | light \| dark | 默认和vitepress主题一致 | 全局主题 |
 
 ### 容器级属性
 
@@ -96,6 +98,7 @@ markmap:
 | 选项 | 类型 | 默认值 | 说明 |
 |-----|------|--------|------|
 | `containerHeight` | string \| number | `300` | 自定义容器高度 |
+| `theme` | light \| dark | 默认和vitepress主题一致 | 主题 |
 | `markmap` | object | / | 自定义脑图配置 |
 | `markmap:color` | string | / | 颜色 |
 | `markmap:spacingHorizontal` | number | 24 | 水平方向间隔距离 |
@@ -154,15 +157,7 @@ markmap:
 
 ### src/types.ts - 类型定义
 
-提供完整的 TypeScript 类型支持：
-
-```typescript
-// 插件选项接口
-export interface MarkmapPluginConfig
-
-// Vue 组件 Props 接口
-export interface MarkmapProps
-```
+提供完整的 TypeScript 类型支持
 
 ## 🎨 样式定制
 

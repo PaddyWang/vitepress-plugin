@@ -28,7 +28,7 @@ export const generateUniqueId = (prefix: string = 'markmap') => `${prefix}-${Dat
  * @returns 转换后的内容
  */
 export function transformMarkmapContainers(markdown: string, options: MarkmapPluginConfig): string {
-  const { name } = options
+  const { name, ...globalProps } = options
   const MARKMAP_CONTAINER_REGEX = new RegExp(`(?:^|\n)(:::\\s*${name}(?: +(.*?))?\n([\\s\\S]*?)\n:::)`, 'gm')
 
   // 使用专门的函数来替换，保留原有的内容结构
@@ -50,6 +50,19 @@ export function transformMarkmapContainers(markdown: string, options: MarkmapPlu
     // 生成组件属性字符串
     const componentId = generateUniqueId(name)
     const propsArray: string[] = [`id="${componentId}"`]
+
+    // 添加全局属性
+    for (const [key, value] of Object.entries(globalProps)) {
+      switch (typeof value) {
+        case 'string':
+          propsArray.push(`${key}="${value}"`)
+          break
+        case 'number':
+        case 'boolean':
+          propsArray.push(`:${key}="${value}"`)
+          break
+      }
+    }
 
     const contentAfter = content
                           // 去掉所有的空行 为了避免markdown语法转换

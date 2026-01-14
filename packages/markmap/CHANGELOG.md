@@ -1,5 +1,12 @@
 # @vitepress-plugin/markmap
 
+## 1.2.0
+
+### Minor Changes
+
+- 全局增加主题设置 & 容器高度设置
+- 容器增加主题设置
+
 ## 1.1.4
 
 ### Patch Changes

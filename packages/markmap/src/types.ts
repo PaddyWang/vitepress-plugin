@@ -5,28 +5,19 @@
 
 import { Plugin } from 'vite'
 
+
+export type themeType = 'light' | 'dark'
+
 /**
  * Markmap 自定义容器的配置选项
  */
 export interface MarkmapPluginConfig {
   /** 自定义容器的名称（在 markdown 中使用） */
   name?: string
-}
-
-/**
- * Markmap 组件的 Props 类型
- */
-export interface MarkmapProps {
-  /** Markdown 格式的脑图数据 */
-  content: string
-  /** 脑图的宽度 */
-  width?: string | number
-  /** 脑图的高度 */
-  height?: string | number
-  /** 是否启用缩放 */
-  zoom?: boolean
-  /** 是否启用拖拽 */
-  pan?: boolean
+  /** 脑图容器的高度，可以是数字（像素）或字符串（CSS 单位） */
+  containerHeight?: string | number
+  /** 主题设置，支持 'light' 或 'dark' */
+  theme?: themeType
 }
 
 /**

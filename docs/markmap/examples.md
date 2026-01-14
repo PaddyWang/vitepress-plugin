@@ -6,6 +6,10 @@
 
 最简单的脑图示例，包含一个根节点和若干子节点：
 
+<script setup>
+import { ref } from 'vue'
+</script>
+
 ```md
 :::markmap
 # 前端开发
@@ -77,6 +81,7 @@ markmap:
 :::markmap
 ---
 containerHeight: 500
+theme: light
 markmap:
   color: red
   maxInitialScale: 2

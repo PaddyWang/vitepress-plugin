@@ -169,23 +169,6 @@ export default defineComponent({
 
 **职责**：提供完整的 TypeScript 类型支持
 
-主要接口：
-
-```typescript
-// 插件配置选项
-interface MarkmapPluginOptions {
-  name?: string                    // 容器名称
-  width?: string | number   // 默认宽度
-  height?: string | number  // 默认高度
-}
-
-// Vue 组件 Props
-interface MarkmapProps {
-  content: string                  // Markdown 内容
-  width?: string | number          // 宽度
-  height?: string | number         // 高度
-}
-```
 
 ## 🔄 执行流程详解
 
@@ -195,11 +178,6 @@ interface MarkmapProps {
 # 我的脑图
 
 :::markmap
----
-width: 100%
-height: 500px
----
-
 * Root Node
   - Branch 1
     + Leaf 1.1
@@ -236,14 +214,11 @@ transformed = transformMarkmapContainers(src)
 
 ### 5. 注入组件导入语句
 
-```javascript
-// 如果有转换过的内容，在文件顶部注入：
-transformed = `<script setup>
+```md
+<script>
 import markmap from '@vitepress-plugin/markmap/markmap';
 import '@vitepress-plugin/markmap/style.css';
 </script>
-
-${transformed}`
 ```
 
 ### 6. 返回转换结果
