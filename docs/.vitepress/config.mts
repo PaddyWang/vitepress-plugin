@@ -4,6 +4,7 @@
 
 import { defineConfig } from 'vitepress'
 import markmapPlugin from '@vitepress-plugin/markmap'
+import mermaidPlugin from '@vitepress-plugin/mermaid'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -14,25 +15,36 @@ export default defineConfig({
   ignoreDeadLinks: true,
   base: '/vitepress-plugin/',
 
+  markdown: {
+    config(md) {
+      console.log('>>>>>>>')
+      // 自定义 Markdown 配置（如果需要）
+    }
+  },
+
   // 引入 Markmap 插件
   vite: {
     plugins: [
       markmapPlugin({
         name: 'markmap',
       }),
+      mermaidPlugin({}),
     ],
   },
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    logo: '🧠',
-
     nav: [
       { text: 'home', link: '/' },
       { text: 'markmap', items: [
         { text: '快速开始', link: '/markmap/' },
         { text: '使用示例', link: '/markmap/examples' },
         { text: '更新日志', link: '/markmap/logs' },
+      ] },
+      { text: 'mermaid', items: [
+        { text: '快速开始', link: '/mermaid/' },
+        { text: '使用示例', link: '/mermaid/examples' },
+        { text: '更新日志', link: '/mermaid/logs' },
       ] },
     ],
 
@@ -44,7 +56,15 @@ export default defineConfig({
           { text: '使用示例', link: '/markmap/examples' },
           { text: '更新日志', link: '/markmap/logs' },
         ],
-      }]
+      }],
+      '/mermaid': [{
+        text: 'mermaid',
+        items: [
+          { text: '快速开始', link: '/mermaid/' },
+          { text: '使用示例', link: '/mermaid/examples' },
+          { text: '更新日志', link: '/mermaid/logs' },
+        ],
+      }],
     },
 
     socialLinks: [
