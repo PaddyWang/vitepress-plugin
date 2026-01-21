@@ -23,7 +23,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const containerRef = ref<HTMLDivElement>()
-const svgRef = ref(null)
+const svgRef = ref<SVGElement>()
 const contentRef = ref<HTMLDivElement>()
 
 interface State {
@@ -56,6 +56,7 @@ onMounted(async () => {
   }
   if (color) config.color = () => color[0]
   if (lineWidth !== undefined) config.lineWidth = () => Array.isArray(lineWidth) ? lineWidth[0] : lineWidth
+  if (!svgRef.value) return
   const mm = Markmap.create(svgRef.value, config, root)
 
   const el = Toolbar.create(mm).setItems(['zoomIn', 'zoomOut', 'fit'])

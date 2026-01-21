@@ -1,6 +1,6 @@
 {
   "name": "@vitepress-plugin/markmap",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "VitePress 插件 用 Markdown 绘制交互式脑图",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",

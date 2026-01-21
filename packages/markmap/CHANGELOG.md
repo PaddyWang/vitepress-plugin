@@ -1,5 +1,11 @@
 # @vitepress-plugin/markmap
 
+## 1.3.1
+
+### Patch Changes
+
+- 更新组件注入方式
+
 ## 1.3.0
 
 ### Minor Changes

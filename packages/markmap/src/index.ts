@@ -45,6 +45,7 @@ function getFileExtension(filepath: string): string {
  * @param options - 插件配置选项
  * @returns Vite 插件对象
  */
+const PluginName = '@vitepress-plugin/markmap'
 export default function markmapPlugin(options: MarkmapPluginConfig = {}): Plugin {
   // 合并默认选项
   const {
@@ -58,46 +59,37 @@ export default function markmapPlugin(options: MarkmapPluginConfig = {}): Plugin
     enforce: 'pre',
 
     /**
-     * Vite 的 resolveId 钩子
-     * 用于处理虚拟模块的导入
-     */
-    resolveId(id: string) {
-      // 如果导入虚拟脑图组件模块，返回虚拟 ID
-      if (id === `vitepress-plugin-${name}:${name}`) {
-        return id
-      }
-    },
-
-    /**
-     * Vite 的 load 钩子
-     * 用于返回虚拟模块的内容
-     */
-    load(id: string) {
-      // 返回 Markmap 组件的导出
-      if (id === `vitepress-plugin-${name}:${name}`) {
-        return `export { default } from '${require.resolve('./markmap.vue')}'`
-      }
-    },
-
-    /**
      * 核心转换钩子
      * 处理 Markdown 文件中的脑图容器
      *
-     * @param src - 文件内容
+     * @param code - 文件内容
      * @param id - 文件路径
      * @returns 转换后的内容
      */
-    transform(src: string, id: string) {
+    transform(code: string, id: string) {
+      // 插入 注入组件的代码片段
+      if (id.includes('/client/app/index')) {
+        code = `import ${name} from '${PluginName}/markmap';\nimport '${PluginName}/style.css';\n${code}`
+        code = code.replace('// install global components', (p) => {
+          return `${p}\n    app.component('${name}', ${name});`
+        })
+
+        return {
+          code,
+          map: null
+        }
+      }
+
       // 只处理 Markdown 和 MDX 文件
       const ext = getFileExtension(id)
       if (!['.md', '.markdown', '.mdx'].includes(ext)) {
         return null
       }
 
-      const transformed = transformMarkmapContainers(src, { ...options, name})
+      const transformed = transformMarkmapContainers(code, { ...options, name})
 
       // 如果内容被修改，返回新内容和 source map
-      if (transformed !== src) {
+      if (transformed !== code) {
         return {
           code: transformed,
           map: null, // 可以在生产环境中生成更详细的 source map
