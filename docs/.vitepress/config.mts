@@ -5,6 +5,7 @@
 import { defineConfig } from 'vitepress'
 import markmapPlugin from '@vitepress-plugin/markmap'
 import mermaidPlugin from '@vitepress-plugin/mermaid'
+import codeviewPlugin from '@vitepress-plugin/codeview'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -25,6 +26,7 @@ export default defineConfig({
   // 引入 Markmap 插件
   vite: {
     plugins: [
+      codeviewPlugin(),
       markmapPlugin({
         name: 'markmap',
       }),

@@ -2,9 +2,29 @@
 
 本页面展示了 VitePress Mermaid 插件的各种使用方式和效果。
 
-
 ## 示例 Flowchart (流程图)
 [语法文档](https://mermaid.js.org/syntax/flowchart.html)
+
+<script setup>
+  import Codeview1 from '../../packages/codeview/src/Component.vue'
+</script>
+
+<Codeview1>
+:::mermaid
+---
+containerStyle:
+  background: transparent
+config:
+  look: handDrawn
+---
+flowchart LR
+    A[Hard edge] -->|Link text| B(Round edge)
+    B --> C{Decision}
+    C -->|One| D[Result one]
+    C -->|Two| E[Result two]
+:::
+<template #code>
+
 ```mermaid
 :::mermaid
 ---
@@ -21,37 +41,19 @@ flowchart LR
 :::
 ```
 
-:::mermaid
----
-containerStyle:
-  background: transparent
-config:
-  look: handDrawn
----
-flowchart LR
-    A[Hard edge] -->|Link text| B(Round edge)
-    B --> C{Decision}
-    C -->|One| D[Result one]
-    C -->|Two| E[Result two]
-:::
-
+</template>
+</Codeview1>
 
 ## 示例 Sequence diagrams (序列图)
 [语法文档](https://mermaid.js.org/syntax/sequenceDiagram.html)
-```md
+
+:::codeview
 :::mermaid
 sequenceDiagram
     Alice->>John: Hello John, how are you?
     John-->>Alice: Great!
     Alice-)John: See you later!
 :::
-```
-
-:::mermaid
-sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    John-->>Alice: Great!
-    Alice-)John: See you later!
 :::
 
 

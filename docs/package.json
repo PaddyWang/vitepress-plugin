@@ -13,6 +13,7 @@
   "devDependencies": {
     "vitepress": "2.0.0-alpha.15",
     "@vitepress-plugin/markmap": "workspace:*",
-    "@vitepress-plugin/mermaid": "workspace:*"
+    "@vitepress-plugin/mermaid": "workspace:*",
+    "@vitepress-plugin/codeview": "workspace:*"
   }
 }
