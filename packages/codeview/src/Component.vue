@@ -8,12 +8,14 @@
         <slot name="code" />
       </div>
     </div>
-    <div class="vp-codeview-expand" @click="handleToggle">
-      <div class="vp-codeview-icon-down">
+    <div class="vp-codeview-expand">
+      <div class="vp-codeview-icon-down" @click="handleToggle">
         <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32"><path d="M512 666.922667l382.634667-202.538667-39.936-75.434667L512 570.368 169.301333 388.949333l-39.936 75.434667L512 666.88z"></path></svg>
+        {{ props.text }}
       </div>
-      <div class="vp-codeview-icon-up">
+      <div class="vp-codeview-icon-up" @click="handleToggle">
         <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32"><path d="M512 357.077333l382.634667 202.538667-39.936 75.434667L512 453.632l-342.698667 181.418667-39.936-75.434667L512 357.12z"></path></svg>
+        {{ props.activeText }}
       </div>
     </div>
   </div>
@@ -24,6 +26,8 @@ import { onMounted, ref } from 'vue'
 
 interface Props {
   id: string
+  text?: string
+  activeText?: string
 }
 
 const props = defineProps<Props>()
@@ -33,6 +37,9 @@ const containerRef = ref<HTMLDivElement>()
 const handleToggle = () => {
   containerRef.value?.classList.toggle('vp-codeview-actived')
 }
+
+onMounted(() => {
+})
 </script>
 
 <style scoped>
@@ -57,7 +64,6 @@ const handleToggle = () => {
   fill: var(--vp-codeview-color);
   display: flex;
   justify-content: center;
-  cursor: pointer;
 }
 .vp-codeview-container.vp-codeview-actived {
   border-color: var(--vp-code-color);
@@ -68,6 +74,10 @@ const handleToggle = () => {
   align-items: center;
   font-size: 14px;
   color: var(--vp-codeview-color);
+  cursor: pointer;
+}
+[class|=vp-codeview-icon]:hover {
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
 }
 .vp-codeview-container:hover {
   --vp-codeview-color: var(--vp-code-color);

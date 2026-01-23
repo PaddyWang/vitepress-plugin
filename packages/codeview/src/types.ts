@@ -12,6 +12,12 @@ import { Plugin } from 'vite'
 export interface CodeviewPluginConfig {
   /** 自定义容器的名称（在 markdown 中使用） */
   name?: string
+  /** 配置全局 code lang */
+  lang?: string
+  /** 配置全局 text */
+  text?: string
+  /** 配置全局 active 状态下的 text */
+  activeText?: string
 }
 
 /**

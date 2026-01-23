@@ -26,7 +26,11 @@ export default defineConfig({
   // 引入 Markmap 插件
   vite: {
     plugins: [
-      codeviewPlugin(),
+      codeviewPlugin({
+        lang: 'md',
+        text: 'code',
+        activeText: '收起',
+      }),
       markmapPlugin({
         name: 'markmap',
       }),

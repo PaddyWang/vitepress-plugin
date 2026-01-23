@@ -6,7 +6,20 @@ test('transformCode', () => {
   const code = `
 :::codeview
 ---
-code: markmap
+lang: markmap
+activeText: 收起
+---
+:::markmap
+---
+theme: dark
+---
+# markmap
+:::
+:::
+
+:::codeview
+---
+lang: markmap
 text: 展开
 activeText: 收起
 ---
@@ -18,5 +31,5 @@ theme: dark
 :::
 :::
   `
-  console.log(transformCode(code, 'codeview'))
+  console.log(transformCode(code, { name: 'codeview', text: 'code' }))
 })

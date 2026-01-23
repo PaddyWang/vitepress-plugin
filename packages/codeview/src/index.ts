@@ -45,7 +45,7 @@ export default function vitepressPluginCodeview (
           map: null
         }
       } else if (id.endsWith('.md')) {
-        const newCode = transformCode(code, name)
+        const newCode = transformCode(code, { ...options, name })
         if (code !== newCode) {
           return {
             code: newCode,
