@@ -1,2 +1,2 @@
 
-<!--@include: ../../packages/markmap/CHANGELOG.md-->
+<!--@include: ../../packages/mermaid/CHANGELOG.md-->

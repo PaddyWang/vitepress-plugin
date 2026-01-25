@@ -100,14 +100,16 @@ export const transformCode = (code: string, options: CodeviewPluginConfig) => {
         }
 
         const { data: config } = matter(configLines.join('\n'))
+        const copyGlobalProps = { ...globalProps }
         // 合并配置
-        Object.assign(globalProps, config)
-        const { lang, ...props } = globalProps
+        Object.assign(copyGlobalProps, config)
+        const { lang, ...props } = copyGlobalProps
         codeLang = lang || ''
 
         const markmapContainerStart = [
           '<ClientOnly>',
           `<${name} id="${uid}" ${objToVueAttr(props)}>`,
+          '',
         ]
         transformedLines.push(...markmapContainerStart)
         continue
@@ -118,6 +120,7 @@ export const transformCode = (code: string, options: CodeviewPluginConfig) => {
           isCodeviewSpace = false
 
           const markmapContainerEnd = [
+            '',
             '<template #code>',
             '',
             '```' + codeLang,

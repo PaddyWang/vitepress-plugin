@@ -44,11 +44,11 @@ onMounted(() => {
 
 <style scoped>
 .vp-codeview-container {
-  --vp-codeview-color: var(--vp-c-text-3);
+  --codeview-color: var(--vp-c-text-3);
   position: relative;
   width: var(--codeview-width, 100%);
   border: 1px dashed transparent;
-  border-radius: var(--mermaid-border-radius, 8px);
+  border-radius: var(--codeview-border-radius, 8px);
 }
 .vp-code-container {
   margin-top: 8px;
@@ -61,26 +61,27 @@ onMounted(() => {
 }
 .vp-codeview-expand {
   position: relative;
-  fill: var(--vp-codeview-color);
+  fill: var(--codeview-color);
   display: flex;
   justify-content: center;
 }
 .vp-codeview-container.vp-codeview-actived {
   border-color: var(--vp-code-color);
+  overflow: hidden;
 }
 [class|=vp-codeview-icon] {
   display: flex;
   gap: 6px;
   align-items: center;
   font-size: 14px;
-  color: var(--vp-codeview-color);
+  color: var(--codeview-color);
   cursor: pointer;
 }
 [class|=vp-codeview-icon]:hover {
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
 }
 .vp-codeview-container:hover {
-  --vp-codeview-color: var(--vp-code-color);
+  --codeview-color: var(--vp-code-color);
 }
 .vp-codeview-icon-up,
 .vp-codeview-actived .vp-codeview-icon-down {

@@ -52,6 +52,11 @@ export default defineConfig({
         { text: '使用示例', link: '/mermaid/examples' },
         { text: '更新日志', link: '/mermaid/logs' },
       ] },
+      { text: 'codeview', items: [
+        { text: '快速开始', link: '/codeview/' },
+        { text: '使用示例', link: '/codeview/examples' },
+        { text: '更新日志', link: '/codeview/logs' },
+      ] },
     ],
 
     sidebar: {
@@ -69,6 +74,14 @@ export default defineConfig({
           { text: '快速开始', link: '/mermaid/' },
           { text: '使用示例', link: '/mermaid/examples' },
           { text: '更新日志', link: '/mermaid/logs' },
+        ],
+      }],
+      '/codeview': [{
+        text: 'codeview',
+        items: [
+          { text: '快速开始', link: '/codeview/' },
+          { text: '使用示例', link: '/codeview/examples' },
+          { text: '更新日志', link: '/codeview/logs' },
         ],
       }],
     },

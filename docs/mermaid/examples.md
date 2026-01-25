@@ -5,11 +5,10 @@
 ## 示例 Flowchart (流程图)
 [语法文档](https://mermaid.js.org/syntax/flowchart.html)
 
-<script setup>
-  import Codeview1 from '../../packages/codeview/src/Component.vue'
-</script>
-
-<Codeview1>
+:::codeview
+---
+lang: mermaid
+---
 :::mermaid
 ---
 containerStyle:
@@ -23,26 +22,7 @@ flowchart LR
     C -->|One| D[Result one]
     C -->|Two| E[Result two]
 :::
-<template #code>
-
-```mermaid
-:::mermaid
----
-containerStyle:
-  background: transparent
-config:
-  look: handDrawn
----
-flowchart LR
-    A[Hard edge] -->|Link text| B(Round edge)
-    B --> C{Decision}
-    C -->|One| D[Result one]
-    C -->|Two| E[Result two]
 :::
-```
-
-</template>
-</Codeview1>
 
 ## 示例 Sequence diagrams (序列图)
 [语法文档](https://mermaid.js.org/syntax/sequenceDiagram.html)
@@ -626,6 +606,5 @@ treemap-beta
 
 ---
 
-**提示**：所有脑图都支持实时交互：
-- 🔍 **缩放**：支持缩放
+**提示**：支持实时交互：
 - ⚡ **响应式**：自动适应容器宽度
