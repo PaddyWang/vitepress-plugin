@@ -1,10 +1,10 @@
 <template>
   <div class="vp-codeview-container" ref="containerRef">
-    <div class="vp-view-container">
+    <div class="vp-view-container" ref="viewRef">
       <slot />
     </div>
     <div class="vp-code-container">
-      <div class="vp-codeview-inner">
+      <div class="vp-codeview-inner" ref="codeRef">
         <slot name="code" />
       </div>
     </div>
@@ -25,20 +25,47 @@
 import { onMounted, ref } from 'vue'
 
 interface Props {
-  id: string
   text?: string
   activeText?: string
+  active?: boolean
+  shadow?: boolean
+
+  id: string
+  importLang?: 'vue' | 'html'
 }
 
 const props = defineProps<Props>()
 
 const containerRef = ref<HTMLDivElement>()
+const codeRef = ref<HTMLDivElement>()
+const viewRef = ref<HTMLDivElement>()
 
 const handleToggle = () => {
   containerRef.value?.classList.toggle('vp-codeview-actived')
 }
 
 onMounted(() => {
+  props.active && containerRef.value?.classList.add('vp-codeview-actived')
+
+  let html: string = ''
+  if (props.importLang === 'html' || props.shadow) {
+    html = codeRef.value?.querySelector('code')?.innerText || ''
+  }
+  if (html && viewRef.value) {
+    const shadow = viewRef.value.attachShadow({ mode: 'open' })
+    shadow.innerHTML = html
+    // 处理脚本
+    const scriptStr = html.match(/<script[^>]*>([\s\S]*?)<\/script>/)
+    if (scriptStr) {
+      const scriptEl = document.createElement('script')
+      // @ts-ignore
+      window.__SHADOW_ROOT__ = shadow
+      scriptEl.textContent = `(function(document){
+        ${scriptStr[1]}
+      })(window.__SHADOW_ROOT__)`
+      shadow.appendChild(scriptEl)
+    }
+  }
 })
 </script>
 
@@ -97,6 +124,6 @@ onMounted(() => {
 </style>
 <style>
 .vp-code-container div[class*='language-'] {
-  margin: 0;
+  margin: 0 !important;
 }
 </style>

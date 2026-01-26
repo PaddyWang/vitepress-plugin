@@ -2,6 +2,8 @@
 
 本页面展示了 VitePress Codeview 插件的各种使用方式和效果。
 
+## 支持嵌套自定义容器渲染
+
 ```md
 :::codeview
 ---
@@ -13,6 +15,7 @@ viewpress info 容器
 :::
 :::
 ```
+
 :::codeview
 ---
 text: 展开查看源码
@@ -23,7 +26,7 @@ viewpress info 容器
 :::
 :::
 
----
+-------------------------
 
 ```md
 :::codeview
@@ -38,7 +41,8 @@ viewpress danger 容器
 :::
 :::
 
----
+-------------------------
+
 
 ```md
 :::codeview
@@ -63,7 +67,9 @@ viewpress danger 容器
 :::
 :::
 
----
+-------------------------
+
+
 
 ```md
 :::codeview
@@ -100,19 +106,68 @@ flowchart LR
 :::
 :::
 
----
+
+## 支持HTML渲染 并且可以开启 shadow 模式
 
 ```md
 :::codeview
 ---
 lang: html
+shadow: true
 ---
-<div style="background: pink;">div 渲染</div>
+<div>div 渲染</div>
+<style>
+  div {
+    background: pink;
+  }
+  body {
+    background: red;
+  }
+</style>
 :::
 ```
 :::codeview
 ---
 lang: html
+shadow: true
 ---
-<div style="background: pink;">div 渲染</div>
+<div>div 渲染</div>
+<style>
+  div {
+    background: pink;
+  }
+  body {
+    background: red;
+  }
+</style>
+:::
+
+
+## 支持 vue 组件导入渲染
+
+```md
+:::codeview
+---
+active: true
+---
+<<< ./Demo.vue
+:::
+```
+:::codeview
+---
+active: true
+---
+<<< ./Demo.vue
+:::
+
+
+## 支持HTML 导入渲染 并且是在 shadow 中隔离渲染
+
+```md
+:::codeview
+<<< ./demo.html
+:::
+```
+:::codeview
+<<< ./demo.html
 :::

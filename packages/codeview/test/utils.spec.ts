@@ -6,6 +6,13 @@ test('transformCode', () => {
   const code = `
 :::codeview
 ---
+active: true
+---
+<<< ./Demo.vue
+:::
+
+:::codeview
+---
 lang: markmap
 activeText: 收起
 ---

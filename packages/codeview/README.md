@@ -75,9 +75,11 @@ flowchart LR
 
 | 选项 | 类型 | 默认值 | 说明 |
 |-----|------|--------|------|
-| `name` | string | `'mermaid'` | 自定义容器名称 |
+| `name` | string | `'codeview'` | 自定义容器名称 |
 | `text` | string | / | 全局自定义 text |
 | `activeText` | string | / | 全局自定义激活时 text |
+| `active` | boolean | / | 全局是否开启 active 状态 |
+| `shadow` | boolean | / | 全局是否开启 shadow 模式渲染 (只有在渲染 HTML 才生效) |
 
 ### 容器级属性
 
@@ -85,7 +87,7 @@ flowchart LR
 支持使用 YAML frontmatter，并使用 [gray-matter](https://github.com/jonschlinkert/gray-matter) 解析。frontmatter 必须位于 容器的顶部，并且需要在三条虚线之间采用有效的 YAML 格式。例如：
 
 ```md{2,3}
-:::mermaid
+:::codeview
 ---
 text: code
 activeText: 收起
@@ -96,6 +98,23 @@ activeText: 收起
 ```
 
 容器级配置同全局配置 优先级大于全局配置。
+
+
+### 支持导入文件
+支持 HTML 代码片段导入  
+```md
+:::codeview
+<<< ./demo.html
+:::
+```
+
+支持 Vue 组件导入  
+
+```md
+:::codeview
+<<< ./Demo.vue
+:::
+```
 
 
 ## 🏗️ 项目架构

@@ -52,6 +52,7 @@ const objToVueAttr = (props: object) => {
 
 export const transformCode = (code: string, options: CodeviewPluginConfig) => {
   const { name, ...globalProps } = options
+  const scriptSetupFlag = '/* SCRIPT SETUP */'
   const lines = code.split('\n')
   const transformedLines: string[] = []
   // 是否在代码块中
@@ -65,6 +66,7 @@ export const transformCode = (code: string, options: CodeviewPluginConfig) => {
   const containerStack: string[] = []
   // 设置的语言
   let codeLang: string = ''
+  const importFilePathMap: Record<string, string> = {}
 
   const len = lines.length
   for (let index = 0; index < len; index++) {
@@ -79,7 +81,7 @@ export const transformCode = (code: string, options: CodeviewPluginConfig) => {
 
     // 只解析非代码块中的容器
     if (!isCodeBlock) {
-      // 开始
+      // 开始标记
       if (new RegExp(`^:::\\s*${name}`).test(line) && !isCodeviewSpace) {
         isCodeviewSpace = true
         spaceCodeLines = []
@@ -114,23 +116,38 @@ export const transformCode = (code: string, options: CodeviewPluginConfig) => {
         transformedLines.push(...markmapContainerStart)
         continue
       }
-      // 结束
+      // 结束标记
       if (isCodeviewSpace && line.trim() === ':::') {
         if (containerStack.length === 0) {
           isCodeviewSpace = false
 
           const markmapContainerEnd = [
-            '',
-            '<template #code>',
-            '',
-            '```' + codeLang,
-            ...spaceCodeLines,
-            '```',
-            '',
-            '</template>',
             `</${name}>`,
             '</ClientOnly>',
           ]
+          // 判断有没有导入模块
+          if (spaceCodeLines.join('').trim().startsWith('<<<')) {
+            markmapContainerEnd.unshift(...[
+              '',
+              '<template #code>',
+              '',
+              ...spaceCodeLines,
+              '',
+              '</template>',
+            ])
+          } else {
+            markmapContainerEnd.unshift(...[
+              '',
+              '<template #code>',
+              '',
+              '```' + codeLang,
+              ...spaceCodeLines,
+              '```',
+              '',
+              '</template>',
+            ])
+          }
+
           transformedLines.push(...markmapContainerEnd)
           continue
         } else {
@@ -144,11 +161,73 @@ export const transformCode = (code: string, options: CodeviewPluginConfig) => {
         if (/^:::\s*\S+/.test(line)) {
           containerStack.push(line)
         }
+
+        // 转义 style 和 script 标签
+        if (line.trim() === '<style>' || line.trim() === '</style>' || line.trim() === '<script>' || line.trim() === '</script>') {
+          line = line.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        }
+
+        // 导入代码处理(不在嵌套容器中)
+        if (containerStack.length === 0 && line.startsWith('<<<')) {
+          if (importFilePathMap[uid]) {
+            throw new Error(`[@vitepress-plugin/codeview] Currently, only single-file import is supported:: ${line}`)
+          } else {
+            importFilePathMap[uid] = line
+            // 在行尾再增加一个唯一标记
+            line += uid
+          }
+        }
+      }
+
+      // 添加 script 标签 标记
+      if (line.trim().startsWith('<script') && line.includes('setup')) {
+        transformedLines.push(line)
+        transformedLines.push(scriptSetupFlag)
+        continue
       }
     }
 
     transformedLines.push(line)
   }
 
-  return transformedLines.join('\n')
+  let newCode = transformedLines.join('\n')
+
+  // 处理导入文件
+  const fileIds = Object.keys(importFilePathMap)
+  if (fileIds.length) {
+    const vuePaths: {id: string, path: string}[] = []
+    fileIds.forEach(key => {
+      const filePath = importFilePathMap[key]
+      const idFlag = `id="${key}"`
+      if (filePath.includes('.vue')) {
+        vuePaths.push({ id: key, path: filePath })
+        newCode = newCode.replace(idFlag, `${idFlag} importLang="vue"`)
+      } else if (filePath.includes('.html')) {
+        newCode = newCode.replace(idFlag, `${idFlag} importLang="html"`).replace(filePath + key, '')
+      }
+    })
+    
+    if (vuePaths.length) {
+      const vueImport = vuePaths.map(file => {
+        return file.path.replace(/^<<<\s+([^\s#{]+)/gm, (_, p2) => {
+          const componentName = `C${file.id.replace(/-/g, '')}`
+          newCode = newCode.replace(file.path + file.id, `<${componentName} />`)
+          return `import ${componentName} from "${p2}"`
+        })
+      }).join('\n')
+      if (newCode.includes(scriptSetupFlag)) {
+        newCode = newCode.replace(scriptSetupFlag, scriptSetupFlag + '\n' + vueImport)
+      } else {
+        newCode += [
+          '',
+          '',
+          '<script setup>',
+          vueImport,
+          '</script>',
+        ].join('\n')
+      }
+    }
+  }
+
+  return newCode
 }

@@ -1,6 +1,6 @@
 {
   "name": "@vitepress-plugin/codeview",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "VitePress 插件 通过自定义容器显示源码和渲染",
   "type": "module",
   "exports": {

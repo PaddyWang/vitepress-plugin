@@ -6,6 +6,7 @@ on:
       - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
       - "markmap@*" # Push events to matching markmap@*, i.e. markmap@1.0.0
       - "mermaid@*" # Push events to matching mermaid@*, i.e. mermaid@1.0.0
+      - "codeview@*" # Push events to matching codeview@*, i.e. codeview@1.0.0
 
   # 允许你从 Actions 选项卡手动运行此工作流程
   workflow_dispatch:
