@@ -1,5 +1,11 @@
 # @vitepress-plugin/codeview
 
+## 1.1.1
+
+### Patch Changes
+
+- 将原来注入的 document 替换成 shadowDocument 不影响原生 document
+
 ## 1.1.0
 
 ### Minor Changes

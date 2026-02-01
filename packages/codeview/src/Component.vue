@@ -60,7 +60,7 @@ onMounted(() => {
       const scriptEl = document.createElement('script')
       // @ts-ignore
       window.__SHADOW_ROOT__ = shadow
-      scriptEl.textContent = `(function(document){
+      scriptEl.textContent = `(function(shadowDocument){
         ${scriptStr[1]}
       })(window.__SHADOW_ROOT__)`
       shadow.appendChild(scriptEl)
